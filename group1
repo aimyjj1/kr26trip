@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Lionheart Plates: The Success Recipe Quiz</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #fff7e8 0%, #ffe6c9 100%);
+      font-family: 'Segoe UI', 'Quicksand', system-ui, -apple-system, 'Poppins', 'Roboto', sans-serif;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #2c1a0e;
+    }
+
+    /* main quiz container */
+    .quiz-container {
+      max-width: 750px;
+      width: 100%;
+      margin: 0 auto;
+      background: #fffef7;
+      border-radius: 64px 48px 64px 48px;
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 215, 150, 0.5);
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    /* header section with cute food art */
+    .food-header {
+      background: #ffeed5;
+      padding: 1.5rem 1rem 0.5rem;
+      text-align: center;
+      border-bottom: 3px dashed #ffb882;
+    }
+
+    .food-icons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .food-icon {
+      font-size: 2.4rem;
+      background: #ffffffcc;
+      backdrop-filter: blur(2px);
+      padding: 0.3rem 0.6rem;
+      border-radius: 80px;
+      display: inline-block;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease;
+    }
+
+    .food-icon:hover {
+      transform: translateY(-4px);
+    }
+
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: #b45f2b;
+      letter-spacing: -0.3px;
+      margin: 0.5rem 0 0.25rem;
+    }
+
+    .tagline {
+      font-size: 1rem;
+      color: #c27e3a;
+      background: #fff0e0;
+      display: inline-block;
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    /* main content */
+    .quiz-main {
+      padding: 2rem 1.8rem 2rem;
+    }
+
+    .story-text {
+      background: #fef3e4;
+      padding: 1.4rem;
+      border-radius: 32px;
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+      line-height: 1.5;
+      font-weight: 500;
+      color: #3a2417;
+      border-left: 8px solid #f7b05e;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.03);
+    }
+
+    .question {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #78461a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .q-icon {
+      font-size: 2rem;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .option-btn {
+      background: #ffffff;
+      border: 2px solid #ffd7a5;
+      border-radius: 60px;
+      padding: 0.9rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #5a2e12;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    }
+
+    .option-btn:hover {
+      background: #fff3e6;
+      border-color: #e6a157;
+      transform: translateX(5px);
+    }
+
+    .option-prefix {
+      background: #f7bc6c;
+      width: 32px;
+      height: 32px;
+      border-radius: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+    }
+
+    /* progress bar */
+    .progress-area {
+      margin: 1rem 0 1.5rem;
+    }
+    .progress-bar-bg {
+      background: #ffe1bf;
+      border-radius: 30px;
+      height: 10px;
+      width: 100%;
+      overflow: hidden;
+    }
+    .progress-fill {
+      background: #f48c42;
+      width: 0%;
+      height: 100%;
+      border-radius: 30px;
+      transition: width 0.3s ease;
+    }
+    .q-counter {
+      text-align: right;
+      font-size: 0.85rem;
+      color: #b47c48;
+      margin-top: 0.4rem;
+    }
+
+    /* result container */
+    .result-container {
+      text-align: center;
+    }
+    .archetype-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin: 0.5rem 0;
+      color: #b45b22;
+    }
+    .percentage-badge {
+      background: #fae6d2;
+      display: inline-block;
+      padding: 0.4rem 1.2rem;
+      border-radius: 50px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin: 0.5rem 0 1rem;
+    }
+    .explanation {
+      background: #fef6ed;
+      border-radius: 36px;
+      padding: 1.2rem;
+      text-align: left;
+      margin: 1rem 0;
+      line-height: 1.5;
+    }
+    .strength-weakness {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .strength, .weakness {
+      flex: 1;
+      background: white;
+      border-radius: 28px;
+      padding: 1rem;
+      text-align: left;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    .strength h4, .weakness h4 {
+      margin-bottom: 0.6rem;
+      font-size: 1.2rem;
+    }
+    .strength h4 { color: #2b7a3e; }
+    .weakness h4 { color: #c24a2a; }
+    .reset-btn {
+      background: #f7b05e;
+      border: none;
+      color: #2c1a0e;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 60px;
+      margin-top: 1.2rem;
+      cursor: pointer;
+      transition: 0.2s;
+      width: auto;
+      display: inline-block;
+    }
+    .reset-btn:hover {
+      background: #e5984c;
+      transform: scale(0.97);
+    }
+    .food-relation {
+      font-style: italic;
+      background: #fff0e0;
+      padding: 0.8rem;
+      border-radius: 28px;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.7rem;
+      color: #c28f5b;
+      border-top: 1px solid #ffe0bc;
+    }
+
+    @media (max-width: 550px) {
+      .quiz-main {
+        padding: 1.5rem;
+      }
+      .option-btn {
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
+      }
+      .archetype-title {
+        font-size: 1.7rem;
+      }
+      .strength-weakness {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="quiz-container" id="quizApp">
+  <div class="food-header">
+    <div class="food-icons">
+      <span class="food-icon">🦀🌶️</span>
+      <span class="food-icon">🍞🥚</span>
+      <span class="food-icon">🍗🍚</span>
+      <span class="food-icon">🍢🥜</span>
+      <span class="food-icon">🍜🦐</span>
+    </div>
+    <h1>🍜 Lionheart Plates 🍚</h1>
+    <div class="tagline">A success story, seasoned with Singaporean soul</div>
+  </div>
+  <div class="quiz-main" id="quizMain">
+    <!-- dynamic content injected -->
+  </div>
+  <footer>✨ Based on true flavours & life's stressors — find your success archetype ✨</footer>
+</div>
+
+<script>
+  // ---------- QUIZ DATA ----------
+  // 10 scenarios based on family, personal goals, society, interests, global news/trends.
+  // each option adds points to an archetype (S, R, B, H, C)
+  // Archetypes: 
+  // 0: "The Harmony Keeper" (family & community success)
+  // 1: "The Resilient Griller" (personal growth & grit)
+  // 2: "The Bold Pioneer" (ambition & societal impact)
+  // 3: "The Curious Tinkerer" (passion, interest & authenticity)
+  // 4: "The Global Guardian" (purpose driven by world & trends)
+  
+  const questions = [
+    { text: "Your family's annual reunion dinner is tonight, but your boss just dropped a critical last-minute project. What's your move?", 
+      options: [
+        { text: "Finish the project but join dinner late with humble apology — family harmony matters.", points: { Harmony: 3, Resilient: 1, Bold: 0, Curious: 0, Global: 1 } },
+        { text: "Politely tell boss you'll deliver tomorrow — family comes first, boundaries are success.", points: { Harmony: 4, Resilient: 0, Bold: 2, Curious: 0, Global: 0 } },
+        { text: "Crush the project, become the star, then treat family to Chili Crab next weekend to make up.", points: { Harmony: 1, Resilient: 1, Bold: 3, Curious: 0, Global: 0 } }
+      ] },
+    { text: "You've been training for a half-marathon (personal goal). Suddenly, a close friend needs emotional support for weeks. How do you balance?", 
+      options: [
+        { text: "Adjust training, be there for friend — success is showing up for people I love.", points: { Harmony: 3, Resilient: 1, Bold: 0, Curious: 0, Global: 1 } },
+        { text: "I stick to my running plan religiously — personal goals define my success, friend understands.", points: { Harmony: 0, Resilient: 3, Bold: 2, Curious: 1, Global: 0 } },
+        { text: "Invite friend to join light jogs — combine worlds, redefine success together.", points: { Harmony: 2, Resilient: 2, Bold: 1, Curious: 2, Global: 0 } }
+      ] },
+    { text: "Society expects you to climb the corporate ladder fast, but you dream of opening a hawker stall like your grandparents. What defines your success?", 
+      options: [
+        { text: "Follow the corporate path for stability, but keep hawker dreams as a weekend passion.", points: { Harmony: 1, Resilient: 1, Bold: 1, Curious: 2, Global: 0 } },
+        { text: "Ignore expectations — dive into hawker culture, craft the perfect Chicken Rice, be my own boss.", points: { Harmony: 0, Resilient: 3, Bold: 3, Curious: 3, Global: 0 } },
+        { text: "Find a middle-ground — start a modern food business that respects tradition but satisfies society's innovation marker.", points: { Harmony: 1, Resilient: 2, Bold: 3, Curious: 2, Global: 1 } }
+      ] },
+    { text: "Your personal interest is pottery / indie games, but your friends say it's 'not productive'. Global creative economy trends show artists are thriving. What's your path?", 
+      options: [
+        { text: "Lean into the global trend — monetise my craft, prove them wrong with a creative brand.", points: { Harmony: 0, Resilient: 1, Bold: 3, Curious: 2, Global: 3 } },
+        { text: "Keep it personal and joyful — success is creative fulfillment, not validation.", points: { Harmony: 1, Resilient: 2, Bold: 0, Curious: 4, Global: 0 } },
+        { text: "Balance — do passion projects while explaining slowly to friends. Success is inner peace + curiosity.", points: { Harmony: 2, Resilient: 1, Bold: 0, Curious: 3, Global: 1 } }
+      ] },
+    { text: "Global news: climate anxiety is high. You feel pressure to adopt a zero-waste lifestyle, but your family finds it inconvenient. How do you navigate?", 
+      options: [
+        { text: "Lead by example gently — make small changes & cook sustainable Hokkien Mee with local produce.", points: { Harmony: 2, Resilient: 1, Bold: 1, Curious: 1, Global: 3 } },
+        { text: "Prioritize family harmony — I'll offset my carbon in other ways without conflict.", points: { Harmony: 3, Resilient: 1, Bold: 0, Curious: 0, Global: 2 } },
+        { text: "Passionately educate & push for big shifts — success is being part of solution.", points: { Harmony: 0, Resilient: 2, Bold: 3, Curious: 1, Global: 4 } }
+      ] },
+    { text: "You see a viral trend: hustle culture glorifies 80-hour weeks. Your personal mental health and love for slow weekends (and kaya toast breakfasts) feels at odds.", 
+      options: [
+        { text: "Reject hustle — protect my kaya toast mornings, define success by well-being.", points: { Harmony: 1, Resilient: 2, Bold: 0, Curious: 3, Global: 1 } },
+        { text: "Embrace the grind temporarily to accelerate financial freedom, then slow down later.", points: { Harmony: 0, Resilient: 3, Bold: 3, Curious: 0, Global: 0 } },
+        { text: "Build a side project that blends my love for breakfast culture and community — success on own terms.", points: { Harmony: 2, Resilient: 2, Bold: 2, Curious: 2, Global: 1 } }
+      ] },
+    { text: "Your parents are aging and need more support, but a massive career opportunity abroad appears. How do you define success now?", 
+      options: [
+        { text: "Stay and cherish the time with family — success is presence and love.", points: { Harmony: 4, Resilient: 0, Bold: 0, Curious: 0, Global: 1 } },
+        { text: "Take the opportunity, send financial support & hire help — success is building legacy for family.", points: { Harmony: 1, Resilient: 2, Bold: 3, Curious: 0, Global: 1 } },
+        { text: "Negotiate a remote arrangement — hybrid success: care + ambition.", points: { Harmony: 2, Resilient: 2, Bold: 2, Curious: 1, Global: 0 } }
+      ] },
+    { text: "Your favourite hawker (Satay uncle) might retire due to low business. You feel a tug: should you help modernize his marketing or focus on your own career?", 
+      options: [
+        { text: "Devote weekends to help — success is preserving cultural heritage & community.", points: { Harmony: 2, Resilient: 1, Bold: 0, Curious: 2, Global: 2 } },
+        { text: "Offer mentorship from distance — success means leveraging my career to uplift others.", points: { Harmony: 1, Resilient: 1, Bold: 2, Curious: 1, Global: 2 } },
+        { text: "Focus on my career climb first, then donate later — pragmatic success.", points: { Harmony: 0, Resilient: 2, Bold: 3, Curious: 0, Global: 1 } }
+      ] },
+    { text: "Your friend group splinters over differing political/news views. You value belonging but also your own opinions. How do you approach success in relationships?", 
+      options: [
+        { text: "Bridge the gaps, organize Chili Crab meetups to focus on shared joys.", points: { Harmony: 4, Resilient: 0, Bold: 0, Curious: 1, Global: 1 } },
+        { text: "Stay authentic to my views, accept that not all friendships last — success is integrity.", points: { Harmony: 0, Resilient: 3, Bold: 2, Curious: 1, Global: 1 } },
+        { text: "Create small sub-groups based on shared interests — keep diverse social circles.", points: { Harmony: 2, Resilient: 1, Bold: 1, Curious: 2, Global: 0 } }
+      ] },
+    { text: "Final push: you're juggling personal goals, a sudden economic downturn, and family pressure to settle down. What's your ultimate compass of success?", 
+      options: [
+        { text: "Lean on community & family — together we rise, like sharing a giant plate of Hokkien Mee.", points: { Harmony: 4, Resilient: 0, Bold: 0, Curious: 0, Global: 1 } },
+        { text: "Double down on my skills, become indispensable — resilience is my success.", points: { Harmony: 0, Resilient: 4, Bold: 2, Curious: 0, Global: 0 } },
+        { text: "Adapt to trends, launch something innovative despite the economy — bold success.", points: { Harmony: 0, Resilient: 1, Bold: 4, Curious: 1, Global: 1 } }
+      ] }
+  ];
+
+  // archetype final definitions
+  const archetypes = [
+    { name: "The Harmony Keeper", 
+      percent: "27%", 
+      explanation: "You define success through deep connections, family warmth, and community resilience. Like a perfect plate of Hainanese Chicken Rice — simple, comforting, yet uniting everyone at the table. You measure achievement by the laughter shared over Chili Crab, not titles. Your journey is about collective well-being, empathy, and preserving traditions that hold people together.",
+      strengths: "Empathetic listener, peacemaker, builds loyal support systems, values emotional wealth.",
+      weaknesses: "May neglect own ambitions, risk burnout from people-pleasing, sometimes avoids necessary conflict.",
+      foodRelation: "🍚 Chicken Rice — a humble dish that brings diverse people together, much like your unifying nature. Success for you is the warmth of shared meals and belonging." },
+    { name: "The Resilient Griller", 
+      percent: "22%", 
+      explanation: "You see success as grit, persistence, and personal mastery. Like a Satay chef who perfects the char and marinade over years, you thrive on overcoming obstacles and refining your craft. Personal goals, discipline, and showing up daily matter most — success is forged through fire.",
+      strengths: "High endurance, self-motivated, consistent, turns setbacks into comebacks.",
+      weaknesses: "May overwork, struggle to delegate, undervalue external support.",
+      foodRelation: "🍢 Satay — grilled to perfection through patience and heat. You achieve success by staying the course, one skewer at a time." },
+    { name: "The Bold Pioneer", 
+      percent: "19%", 
+      explanation: "Your success archetype is ambitious and trend-setting, always looking to scale impact. Like the iconic Chilli Crab — bold, messy, and legendary. You embrace risks, climb heights, and aim to leave a mark on society, career, or industry. Status and innovation fuel your definition of success.",
+      strengths: "Visionary, risk-taker, decisive, inspires others to dream big.",
+      weaknesses: "Can be overly competitive, might dismiss slower pace of others, prone to burnout.",
+      foodRelation: "🦀 Chilli Crab — a showstopper dish that commands attention; bold, flavour-packed, unforgettable." },
+    { name: "The Curious Tinkerer", 
+      percent: "17%", 
+      explanation: "Success for you is authenticity, exploration, and following your genuine interests — no matter how niche. Like crafting the perfect Kaya Toast with half-boiled eggs, you find beauty in rituals and personal passions. You define success by staying true to yourself, creativity, and joyful curiosity.",
+      strengths: "Creative, adaptable, intrinsically motivated, innovative in personal niches.",
+      weaknesses: "May struggle with external expectations, sometimes feels misunderstood, can lack structure.",
+      foodRelation: "🍞 Kaya Toast & Eggs — a beloved breakfast classic made with care. You relish the simple, authentic moments that fuel your soul." },
+    { name: "The Global Guardian", 
+      percent: "15%", 
+      explanation: "You view success through a lens of purpose, sustainability, and global responsibility. Like Hokkien Mee — a stir-fried noodle dish that fuses diverse influences into something meaningful. You measure achievement by how you contribute to larger movements, ethics, and positive world impact.",
+      strengths: "Purpose-driven, aware of systemic issues, advocates for change, visionary.",
+      weaknesses: "May carry eco-anxiety or activist burnout, can feel overwhelmed by scale of problems.",
+      foodRelation: "🍜 Hokkien Mee — a harmonious blend of stock, wok hei, and multicultural heritage; reflects your interconnected worldview." }
+  ];
+
+  let currentQuestionIndex = 0;
+  let scores = { Harmony: 0, Resilient: 0, Bold: 0, Curious: 0, Global: 0 };
+
+  function mapPoints(pointsObj) {
+    return {
+      Harmony: pointsObj.Harmony || 0,
+      Resilient: pointsObj.Resilient || 0,
+      Bold: pointsObj.Bold || 0,
+      Curious: pointsObj.Curious || 0,
+      Global: pointsObj.Global || 0
+    };
+  }
+
+  function addPoints(pointsObj) {
+    scores.Harmony += pointsObj.Harmony;
+    scores.Resilient += pointsObj.Resilient;
+    scores.Bold += pointsObj.Bold;
+    scores.Curious += pointsObj.Curious;
+    scores.Global += pointsObj.Global;
+  }
+
+  function getTopArchetype() {
+    let entries = Object.entries(scores);
+    entries.sort((a,b) => b[1] - a[1]);
+    let topKey = entries[0][0];
+    switch(topKey) {
+      case "Harmony": return 0;
+      case "Resilient": return 1;
+      case "Bold": return 2;
+      case "Curious": return 3;
+      case "Global": return 4;
+      default: return 0;
+    }
+  }
+
+  function renderProgress() {
+    const percent = ((currentQuestionIndex) / questions.length) * 100;
+    const fillEl = document.querySelector('.progress-fill');
+    if (fillEl) fillEl.style.width = percent + '%';
+    const counter = document.querySelector('.q-counter');
+    if (counter) counter.innerText = `${currentQuestionIndex} / ${questions.length}`;
+  }
+
+  function renderQuestion() {
+    const q = questions[currentQuestionIndex];
+    const mainDiv = document.getElementById('quizMain');
+    if (!mainDiv) return;
+    let optionsHtml = '';
+    q.options.forEach((opt, idx) => {
+      const prefix = String.fromCharCode(65+idx); // A, B, C
+      optionsHtml += `<div class="option-btn" data-opt-index="${idx}">
+                        <span class="option-prefix">${prefix}</span>
+                        <span>${opt.text}</span>
+                      </div>`;
+    });
+    const html = `
+      <div class="progress-area">
+        <div class="progress-bar-bg"><div class="progress-fill" style="width: ${((currentQuestionIndex)/questions.length)*100}%"></div></div>
+        <div class="q-counter">${currentQuestionIndex+1} / ${questions.length}</div>
+      </div>
+      <div class="story-text">✨ Singapore food court chronicles · Every choice adds secret sauce to your success recipe ✨</div>
+      <div class="question"><span class="q-icon">🍽️</span> ${q.text}</div>
+      <div class="options" id="optionsContainer">
+        ${optionsHtml}
+      </div>
+    `;
+    mainDiv.innerHTML = html;
+    renderProgress();
+
+    document.querySelectorAll('.option-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(btn.dataset.optIndex);
+        const selectedPoints = q.options[idx].points;
+        addPoints(mapPoints(selectedPoints));
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+          renderQuestion();
+        } else {
+          showResult();
+        }
+      });
+    });
+  }
+
+  function showResult() {
+    const archetypeIdx = getTopArchetype();
+    const arch = archetypes[archetypeIdx];
+    const mainDiv = document.getElementById('quizMain');
+    const resultHtml = `
+      <div class="result-container">
+        <div class="food-icons" style="justify-content:center; gap:0.8rem;">🍜🏆🍚</div>
+        <div class="archetype-title">${arch.name}</div>
+        <div class="percentage-badge">✨ ${arch.percent} of people share this success DNA ✨</div>
+        <div class="explanation">
+          ${arch.explanation}
+        </div>
+        <div class="strength-weakness">
+          <div class="strength"><h4>💪 Strengths</h4> ${arch.strengths}</div>
+          <div class="weakness"><h4>⚠️ Weaknesses</h4> ${arch.weaknesses}</div>
+        </div>
+        <div class="food-relation">
+          🥢 ${arch.foodRelation}
+        </div>
+        <button class="reset-btn" id="resetQuiz">🍜 Cook up your answers again ↺</button>
+      </div>
+    `;
+    mainDiv.innerHTML = resultHtml;
+    document.getElementById('resetQuiz')?.addEventListener('click', () => {
+      resetQuiz();
+    });
+  }
+
+  function resetQuiz() {
+    currentQuestionIndex = 0;
+    scores = { Harmony: 0, Resilient: 0, Bold: 0, Curious: 0, Global: 0 };
+    renderQuestion();
+  }
+
+  // initial render
+  renderQuestion();
+</script>
+</body>
+</html>
